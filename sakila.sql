@@ -50,14 +50,18 @@ HAVING lastnames_count > 1;
 
 -- 4c. The actor HARPO WILLIAMS was accidentally entered in the actor table as GROUCHO WILLIAMS. Write a query to fix the record.
 UPDATE actor
-SET first_name = 'GROUCHO'
-WHERE first_name = 'HARPO' and last_name = 'WILLIAMS'; -- it appears there was no HARPO in the dataset, it was listed correctly
+SET first_name = 'HARPO'
+WHERE first_name = 'GROUCHO' and last_name = 'WILLIAMS'; 
 
 -- 4d. Perhaps we were too hasty in changing GROUCHO to HARPO. It turns out that GROUCHO was the correct name after all! In a single query, 
 -- if the first name of the actor is currently HARPO, change it to GROUCHO.
+UPDATE actor
+SET first_name = 'GROUCHO'
+WHERE first_name = 'HARPO' and last_name = 'WILLIAMS'; 
+-- double check it worked
 SELECT *
 FROM actor
-WHERE last_name = 'WILLIAMS'; -- there are no harpo williams, the table is correct
+WHERE last_name = 'WILLIAMS'; -- the table is now correct
 
 -- 5a. You cannot locate the schema of the address table. Which query would you use to re-create it?
 SHOW CREATE TABLE address;
