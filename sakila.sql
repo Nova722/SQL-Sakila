@@ -1,6 +1,7 @@
+
 USE sakila;
 SELECT * FROM sakila.actor;
-USE sakila;
+
 -- 1a show first and last names
 SELECT first_name, last_name
 FROM actor;
@@ -182,18 +183,18 @@ LIMIT 5;
 -- Use the solution from the problem above to create a view. If you haven't solved 7h, you can substitute another query to create a view.
 create view top_five as
 	SELECT category.name, SUM(payment.amount) AS 'Top_Grossing_Genres'
-FROM category
-JOIN film_category
-ON category.category_id = film_category.category_id 
-JOIN inventory
-ON film_category.film_id = inventory.film_id
-JOIN rental
-ON rental.inventory_id = inventory.inventory_id
-JOIN payment
-ON payment.rental_id = rental.rental_id
-GROUP BY category.name
-ORDER BY Top_Grossing_Genres desc
-LIMIT 5;
+	FROM category
+	JOIN film_category
+	ON category.category_id = film_category.category_id 
+	JOIN inventory
+	ON film_category.film_id = inventory.film_id
+	JOIN rental
+	ON rental.inventory_id = inventory.inventory_id
+	JOIN payment
+	ON payment.rental_id = rental.rental_id
+	GROUP BY category.name
+	ORDER BY Top_Grossing_Genres desc
+	LIMIT 5;
 
 -- 8b. How would you display the view that you created in 8a?
 select * from top_five;
