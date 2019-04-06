@@ -40,11 +40,13 @@ ALTER TABLE actor ADD description BLOB;
 ALTER TABLE actor DROP description;
 
 -- 4a. List the last names of actors, as well as how many actors have that last name.
-SELECT last_name, COUNT(actor_id) as 'lastnames_count' FROM actor
+SELECT last_name, COUNT(actor_id) as 'lastnames_count' 
+FROM actor
 GROUP BY last_name;
 
 -- 4b. List last names of actors and the number of actors who have that last name, but only for names that are shared by at least two actors
-SELECT last_name, COUNT(actor_id) as 'lastnames_count' FROM actor
+SELECT last_name, COUNT(actor_id) as 'lastnames_count' 
+FROM actor
 GROUP BY last_name
 HAVING lastnames_count > 1;
 
@@ -64,7 +66,7 @@ FROM actor
 WHERE last_name = 'WILLIAMS'; -- the table is now correct
 
 -- 5a. You cannot locate the schema of the address table. Which query would you use to re-create it?
-SHOW CREATE TABLE address;
+ SHOW CREATE TABLE address;
 -- Or you could also
 SELECT *
 FROM INFORMATION_SCHEMA.COLUMNS
@@ -78,12 +80,12 @@ JOIN address
 ON staff.address_id = address.address_id;
 
 -- 6b. Use JOIN to display the total amount rung up by each staff member in August of 2005. Use tables staff and payment.
-SELECT staff.staff_id, staff.first_name, staff.last_name, sum(payment.amount) as 'total_amount'
-FROM staff
-JOIN payment
-ON staff.staff_id = payment.staff_id
-WHERE payment.payment_date like '2005-08%'
-GROUP BY staff.staff_id;
+SELECT s.staff_id, s.first_name, s.last_name, sum(p.amount) as 'total_amount'
+FROM staff as s
+JOIN payment as p
+ON s.staff_id = p.staff_id
+WHERE p.payment_date like '2005-08%'
+GROUP BY s.staff_id;
 
 -- 6c. List each film and the number of actors who are listed for that film. Use tables film_actor and film. Use inner join.
 SELECT film.title, COUNT(film_actor.actor_id) AS actor_count
