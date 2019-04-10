@@ -66,7 +66,8 @@ FROM actor
 WHERE last_name = 'WILLIAMS'; -- the table is now correct
 
 -- 5a. You cannot locate the schema of the address table. Which query would you use to re-create it?
- SHOW CREATE TABLE address;
+ SHOW CREATE TABLE address; -- you can right click and copy paste
+
 -- Or you could also
 SELECT *
 FROM INFORMATION_SCHEMA.COLUMNS
@@ -143,14 +144,15 @@ WHERE film_id IN (SELECT film_id FROM  film_category WHERE category_id IN
 (SELECT category_ID FROM category WHERE name = 'family'));
 
 -- 7e. Display the most frequently rented movies in descending order.
-SELECT film.title, COUNT(film.title) AS 'Rental Frequency'
+SELECT film.title, COUNT(film.title) AS `Rental Frequency`
 FROM film
 INNER JOIN inventory
 ON film.film_id = inventory.film_id 
 INNER JOIN rental
 ON inventory.inventory_id = rental.inventory_id
 GROUP BY film.film_id
-ORDER BY frequency desc;
+ORDER BY `Rental Frequency` desc;
+
 
 -- 7f. Write a query to display how much business, in dollars, each store brought in.
 SELECT staff.store_id, SUM(payment.amount) AS store_revenue
@@ -188,19 +190,19 @@ LIMIT 5;
 -- 8a. In your new role as an executive, you would like to have an easy way of viewing the Top five genres by gross revenue. 
 -- Use the solution from the problem above to create a view. If you haven't solved 7h, you can substitute another query to create a view.
 create view top_five as
-	SELECT category.name, SUM(payment.amount) AS 'Top_Grossing_Genres'
-	FROM category
-	JOIN film_category
-	ON category.category_id = film_category.category_id 
-	JOIN inventory
-	ON film_category.film_id = inventory.film_id
-	JOIN rental
-	ON rental.inventory_id = inventory.inventory_id
-	JOIN payment
-	ON payment.rental_id = rental.rental_id
-	GROUP BY category.name
-	ORDER BY Top_Grossing_Genres desc
-	LIMIT 5;
+SELECT category.name, SUM(payment.amount) AS 'Top_Grossing_Genres'
+FROM category
+JOIN film_category
+ON category.category_id = film_category.category_id 
+JOIN inventory
+ON film_category.film_id = inventory.film_id
+JOIN rental
+ON rental.inventory_id = inventory.inventory_id
+JOIN payment
+ON payment.rental_id = rental.rental_id
+GROUP BY category.name
+ORDER BY Top_Grossing_Genres desc
+LIMIT 5;
 
 -- 8b. How would you display the view that you created in 8a?
 select * from top_five;
